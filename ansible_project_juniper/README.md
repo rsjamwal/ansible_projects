@@ -41,7 +41,15 @@ Requires Ansible to be installed: sudo apt install ansible
     Customize the variable files in host_vars and vars directories as needed.
 ```
 
+
 ## 🛠 Skills
-NETCONF , Ansible, Firewall, Python, Jinja...
+- NETCONF , Ansible, Firewall, Python, Jinja...
 
 
+## Running Tests
+
+- To run Ansible playbook, run the following command
+
+```bash
+  ansible-playbook playbook.yml  -i inventory/hosts.yml
+```
