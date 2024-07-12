@@ -1,0 +1,6 @@
+file_zones_F1: "{{ playbook_dir }}/templates/zones_f1.j2"
+file_services_F1: "{{ playbook_dir }}/templates/services_f1.j2"
+file_global_addresses_F1: "{{ playbook_dir }}/templates/global_address_f1.j2"
+file_policy_F1: "{{ playbook_dir }}/templates/policy_f1.j2"
+file_web_F1: "{{ playbook_dir }}/templates/web_f1.j2"
+file_interfaces_F1: "{{ playbook_dir }}/templates/interfaces_f1.j2"

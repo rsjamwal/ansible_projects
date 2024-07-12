@@ -1,0 +1,23 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>F1</host-name>
+        </system>
+        <security>
+            <zones>
+                                <security-zone>
+                    <name>trust</name>
+                    <interfaces>
+                                                <name>ge-0/0/0.0</name>
+                                            </interfaces>
+                </security-zone>
+                                <security-zone>
+                    <name>untrust</name>
+                    <interfaces>
+                                                <name>ge-0/0/1.0</name>
+                                            </interfaces>
+                </security-zone>
+                            </zones>
+        </security>
+    </configuration>
+</config>

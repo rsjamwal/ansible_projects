@@ -1,0 +1,30 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>{{ hostname }}</host-name>
+        </system>
+        <security>
+            {% for address_book in address_books %}
+            <address-book>
+                <name>{{ address_book.name }}</name>
+                {% for address in address_book.addresses %}
+                <address>
+                    <name>{{ address.name }}</name>
+                    <range-address>
+                        <name>{{ address.range_address.start }}</name>
+                        <to>
+                            <range-high>{{ address.range_address.end }}</range-high>
+                        </to>
+                    </range-address>
+                </address>
+                {% endfor %}
+                <attach>
+                    <zone>
+                        <name>{{ address_book.zone }}</name>
+                    </zone>
+                </attach>
+            </address-book>
+            {% endfor %}
+        </security>
+    </configuration>
+</config>

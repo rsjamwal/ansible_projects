@@ -1,0 +1,47 @@
+# host_vars/F1.yml
+cooked_file_path_zones: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_zones_F1.xml"
+cooked_file_path_services: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_services_F1.xml"
+cooked_file_path_zone_addresses: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_zone_address_F1.xml"
+
+hostname: F1
+
+zones:
+  - name: trust
+    tcp_rst: true
+    address_book:
+      - name: Testname999
+        range_address:  
+          name: 192.168.1.1
+          to:
+            range_high: 192.168.1.50
+  -  name: untrust8
+     address_book:
+       - name: Testname7777
+         range_address:
+           name: 192.168.2.1
+           to:
+             range_high: 192.168.2.50
+  - name: untrust9
+    address_book:
+      - name: Testname8888
+        range_address:
+          name: 192.168.3.1
+          to:
+            range_high: 192.168.3.50
+  - name: untrust11
+    address_book:
+      - name: Testname5555
+        range_address:
+          name: 192.168.4.50
+          to:
+            range_high: 192.168.4.50
+   
+services:
+  - app_name: ftp
+    app_description: Test ftp app description
+    app_protocol: ignore
+    ip_protocol: tcp
+    src_port: 1024-65535
+    dst_port: 21
+    
+

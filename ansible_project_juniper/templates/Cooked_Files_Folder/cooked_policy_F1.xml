@@ -1,0 +1,29 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>F1</host-name>
+        </system>
+        <security>
+            <policies>
+                                <policy>
+                    <from-zone-name>trust</from-zone-name>
+                    <to-zone-name>untrust</to-zone-name>
+					<policy>
+                        <name>my-defined-rule</name>
+                        <match>
+							<source-address>ue_subnet</source-address>
+							<destination-address>outside_network</destination-address>
+							<application>test-app</application>
+							<dynamic-application>any</dynamic-application>
+							<url-category>any</url-category>
+                        </match>
+                        <then>
+                                                      <deny/>
+                                                                                                            <count/>
+                                                   </then>
+					</policy>
+                </policy>
+                            </policies>                            
+        </security>
+    </configuration>
+</config>

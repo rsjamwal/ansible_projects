@@ -1,0 +1,19 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>{{ hostname }}</host-name>
+        </system>
+		<applications>
+			{% for service in services %}
+		    <application>
+				<name>{{ service.app_name }}</name>
+				<description>{{ service.app_description }}</description>
+				<application-protocol>{{ service.app_protocol }}</application-protocol>
+				<protocol>{{ service.ip_protocol }}</protocol>
+				<source-port>{{ service.src_port }}</source-port>
+				<destination-port>{{ service.dst_port }}</destination-port>
+			</application>
+			 {% endfor %}
+		</applications>
+    </configuration>
+</config>

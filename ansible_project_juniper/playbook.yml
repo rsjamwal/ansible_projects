@@ -1,0 +1,101 @@
+---
+- hosts: all
+  gather_facts: no
+  vars_files:
+    - vars/vars.yml
+  tasks:
+    - name: Create Interfaces
+      template:
+        src: "{{ file_interfaces_F1 }}"
+        dest: "{{ cooked_file_path_interfaces }}"
+      tags:
+        - interfaces
+        - interfaces_F1        
+      
+    - name: Create Zone on Junos SRX F1
+      template:
+        src: "{{ file_zones_F1 }}"
+        dest: "{{ cooked_file_path_zones }}"
+      tags:
+        - zones
+        - zones_F1
+            
+    - name: Create Services on Junos SRX F1
+      template:
+        src: "{{ file_services_F1 }}"
+        dest: "{{ cooked_file_path_services }}"
+      tags:
+        - services
+        - services_F1
+      
+    - name: Create Global Addresses on Junos SRX F1
+      template:
+        src: "{{ file_global_addresses_F1 }}"
+        dest: "{{ cooked_file_path_global_addresses }}"
+      tags:
+        - Global_addresses
+        - Global_addresses_F1
+    
+    - name: Create Policy on Junos SRX F1
+      template:
+        src: "{{ file_policy_F1 }}"
+        dest: "{{ cooked_file_path_policy }}"
+      tags:
+        - policy
+        - policy_F1
+        
+    - name: Create Web_Filtering Profile on Junos SRX F1
+      template:
+        src: "{{ file_web_F1 }}"
+        dest: "{{ cooked_file_path_web }}"
+      tags:
+        - web
+        - web_F1                 
+    
+    - name: Create Zones on Junos SRX F1
+      netconf_config:
+        target: candidate
+        content: "{{ lookup('file', cooked_file_path_zones) }}"
+      tags:
+        - zones
+        - zones_F1
+            
+    - name: Create Services on Junos SRX F1
+      netconf_config:
+        target: candidate
+        content: "{{ lookup('file', cooked_file_path_services) }}"
+      tags:
+        - services
+        - services_F1
+        
+    - name: Create Global Addresses on Junos SRX F1
+      netconf_config:
+        target: candidate
+        content: "{{ lookup('file', cooked_file_path_global_addresses) }}"
+      tags:
+        - Global_addresses
+        - Global_addresses_F1
+        
+    - name: Create Policy on Junos SRX F1
+      netconf_config:
+        target: candidate
+        content: "{{ lookup('file', cooked_file_path_policy) }}"
+      tags:
+        - policy
+        - policy_F1
+        
+    - name: Create Web-Filtering on Junos SRX F1
+      netconf_config:
+        target: candidate
+        content: "{{ lookup('file', cooked_file_path_web) }}"
+      tags:
+        - web
+        - web_F1        
+        
+    - name: Create Interfaces
+      netconf_config:
+        target: candidate
+        content: "{{ lookup('file', cooked_file_path_interfaces) }}"
+      tags:
+        - interfaces
+        - interfaces_F1

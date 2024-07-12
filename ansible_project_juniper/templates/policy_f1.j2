@@ -1,0 +1,45 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>{{ hostname }}</host-name>
+        </system>
+        <security>
+            <policies>
+                {% for policy in policies %}
+                <policy>
+                    <from-zone-name>{{ policy.from_zone_name }}</from-zone-name>
+                    <to-zone-name>{{ policy.to_zone_name }}</to-zone-name>
+					<policy>
+                        <name>{{ policy.name }}</name>
+                        <match>
+							<source-address>{{ policy.match.source_address }}</source-address>
+							<destination-address>{{ policy.match.destination_address }}</destination-address>
+							<application>{{ policy.match.application }}</application>
+							<dynamic-application>{{ policy.match.dynamic_application }}</dynamic-application>
+							<url-category>{{ policy.match.url_category }}</url-category>
+                        </match>
+                        <then>
+                           {% if policy.action == 'deny' %}
+                           <deny/>
+                           {% elif policy.action == 'permit' %}
+                           <permit/>
+                           {% elif policy.action == 'reject' %}
+                           <reject/>
+                           {% endif %}
+                           {% if policy.enable_logging %}
+                           <log>
+                               <session-init/>
+                               <session-close/>
+                           </log>
+                           {% endif %}
+                           {% if policy.enable_counting %}
+                           <count/>
+                           {% endif %}
+                        </then>
+					</policy>
+                </policy>
+                {% endfor %}
+            </policies>                            
+        </security>
+    </configuration>
+</config>

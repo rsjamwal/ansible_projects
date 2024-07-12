@@ -1,0 +1,25 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>{{ hostname }}</host-name>
+        </system>
+		<interfaces>
+            {% for interface in interfaces %}
+            <interface>
+                <name>{{ interface.name }}</name>
+                <unit>
+                    <name>{{ interface.unit_name }}</name>
+                    <description>{{ interface.description }}</description>
+                    <family>
+                        <inet>
+                            <address>
+                                <name>{{ interface.inet_address }}</name>
+                            </address>
+                        </inet>
+                    </family>
+                </unit>
+            </interface>
+            {% endfor %}
+            </interfaces> 
+    </configuration>
+</config>

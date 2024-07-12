@@ -1,0 +1,43 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <configuration xmlns="http://xml.juniper.net/xnm/1.1/xnm" xmlns:junos="http://xml.juniper.net/junos/commit" junos:commit-user="root">
+        <system>
+            <host-name>{{ hostname }}</host-name>
+        </system>
+        <security>
+		    <utm>
+			    <feature-profile>
+				   <web-filtering>
+				       <juniper-enhanced>
+					       {% for profile in profiles %}
+					       <profile>
+						        <name>{{ profile.profile_name }}</name>
+							    <category>
+							       <name>{{ profile.category_name }}</name>
+								   <action>{{ profile.category_action }}</action>
+								</category>
+								<site-reputation-action>
+									<very-safe>{{ profile.very_safe_action }}</very-safe>
+									<moderately-safe>{{ profile.moderately_safe_action }}</moderately-safe>
+									<fairly-safe>{{ profile.fairly_safe_action }}</fairly-safe>
+									<suspicious>{{ profile.suspicious_action }}</suspicious>
+									<harmful>{{ profile.harmful_action }}</harmful>
+								</site-reputation-action>
+								<default>log-and-permit</default>
+								<fallback-settings>
+								     <default>log-and-permit</default>
+								</fallback-settings>
+							</profile>
+							{% endfor %}
+						</juniper-enhanced>
+					</web-filtering>
+				</feature-profile>
+				<utm-policy>
+				    <name>{{ utm_policy.name }}</name>
+					<web-filtering>
+					    <http-profile>{{ utm_policy.web_filtering.http_profile }}</http-profile>
+					</web-filtering>
+				</utm-policy>
+			</utm>
+        </security>
+    </configuration>
+</config>
