@@ -1,0 +1,95 @@
+# host_vars/F1.yml
+cooked_file_path_zones: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_zones_F1.xml"
+cooked_file_path_services: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_services_F1.xml"
+cooked_file_path_global_addresses: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_global_address_F1.xml"
+cooked_file_path_policy: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_policy_F1.xml"
+cooked_file_path_web: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_web_F1.xml"
+cooked_file_path_interfaces: "{{ playbook_dir }}/templates/Cooked_Files_Folder/cooked_interfaces_F1.xml"
+
+hostname: F1
+
+interfaces:
+  - name: ge-0/0/0
+    unit_name: 0
+    description: Internal
+    inet_address: 10.1.4.1/24
+  - name: ge-0/0/1
+    unit_name: 0
+    description: External
+    inet_address: 10.1.2.1/24
+
+zones:
+  - name: trust
+    interfaces:
+      - ge-0/0/0.0
+  - name: untrust
+    interfaces:
+      - ge-0/0/1.0
+  
+services:
+  - app_name: test-app
+    app_description: Test ftp app description
+    app_protocol: ftp
+    ip_protocol: tcp
+    src_port: 1024-65535
+    dst_port: 21
+  # Add more services as needed
+    
+policies:
+  - from_zone_name: trust
+    to_zone_name: untrust
+    name: my-defined-rule
+    match:
+      source_address: ue_subnet
+      destination_address: outside_network
+      application: test-app
+      dynamic_application: any
+      url_category: any
+    action: deny
+    enable_logging: false
+    enable_counting: true
+  # Add more policies as needed
+
+profiles:
+  - profile_name: test1
+    category_name: Enhanced_Abused_Drugs
+    category_action: log-and-permit
+    very_safe_action: log-and-permit
+    moderately_safe_action: log-and-permit
+    fairly_safe_action: log-and-permit
+    suspicious_action: quarantine
+    harmful_action: block
+    default_action: log-and-permit
+    fallback_default_action: log-and-permit
+    
+  - profile_name: test2
+    category_name: Enhanced_Gambling
+    category_action: log-and-permit
+    very_safe_action: log-and-permit
+    moderately_safe_action: log-and-permit
+    fairly_safe_action: log-and-permit
+    suspicious_action: quarantine
+    harmful_action: block
+    default_action: log-and-permit
+    fallback_default_action: log-and-permit
+    
+utm_policy:
+  name: web99060
+  web_filtering:
+    http_profile: test1
+
+address_books:
+  - name: "test1234"
+    zone: "trust"
+    addresses:
+      - name: "ue_subnet"
+        range_address:
+          start: "192.168.1.0"
+          end: "192.168.1.254"
+  - name: "test5678"
+    zone: "untrust"
+    addresses:
+      - name: "outside_network"
+        range_address:
+          start: "1.1.1.0"
+          end: "1.1.1.254"
